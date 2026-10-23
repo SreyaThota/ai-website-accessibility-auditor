@@ -33,3 +33,6 @@ reports/*
 *~
 .DS_Store
 Thumbs.db
+
+# External demonstration & marketing assets
+linkedin_assets/
