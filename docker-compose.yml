@@ -1,0 +1,60 @@
+services:
+  backend:
+    build:
+      context: .
+      target: backend
+    container_name: a11y-auditor-backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8000
+      - HEADLESS_BROWSER=true
+      - REPORTS_DIR=/app/reports
+      - VISION_PROVIDER=auto
+      - MIN_NORMAL_CONTRAST=4.5
+      - MIN_LARGE_CONTRAST=3.0
+      - MIN_TOUCH_TARGET_SIZE=44
+      - MIN_TOUCH_TARGET_AA=24
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+    volumes:
+      - reports_data:/app/reports
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    networks:
+      - a11y-net
+
+  frontend:
+    build:
+      context: .
+      target: frontend
+    container_name: a11y-auditor-frontend
+    restart: unless-stopped
+    ports:
+      - "8501:8501"
+    environment:
+      - API_URL=http://backend:8000
+      - STREAMLIT_SERVER_PORT=8501
+      - STREAMLIT_SERVER_ADDRESS=0.0.0.0
+      - STREAMLIT_SERVER_HEADLESS=true
+    volumes:
+      - reports_data:/app/reports
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - a11y-net
+
+volumes:
+  reports_data:
+    driver: local
+
+networks:
+  a11y-net:
+    driver: bridge

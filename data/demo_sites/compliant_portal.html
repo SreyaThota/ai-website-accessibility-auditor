@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessible Public Services Portal | Technical University</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #ffffff; color: #0f172a; /* 19.5:1 contrast ratio */ line-height: 1.6; margin: 0; padding: 24px; }
+        .skip-link { position: absolute; top: -60px; left: 0; min-height: 48px; min-width: 48px; display: inline-flex; align-items: center; background: #2563eb; color: #ffffff; padding: 12px 20px; z-index: 100; text-decoration: none; font-weight: 600; }
+        .skip-link:focus { top: 0; }
+        nav { display: flex; gap: 12px; align-items: center; margin-bottom: 20px; }
+        nav a { display: inline-flex; align-items: center; min-height: 48px; min-width: 48px; padding: 12px 16px; color: #1d4ed8; text-decoration: underline; font-weight: 600; }
+        nav a:focus { outline: 3px solid #0284c7; outline-offset: 2px; }
+        .btn-action { min-width: 48px; min-height: 48px; padding: 12px 24px; background: #1d4ed8; color: #ffffff; font-size: 1rem; font-weight: 600; border-radius: 6px; border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+        .btn-action:focus { outline: 3px solid #0284c7; outline-offset: 2px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-weight: 600; margin-bottom: 6px; color: #0f172a; }
+        input[type="text"] { width: 100%; max-width: 400px; height: 48px; padding: 8px 12px; border: 2px solid #475569; border-radius: 6px; font-size: 1rem; }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <header role="banner">
+        <nav role="navigation" aria-label="Main Navigation">
+            <a href="/">Home</a>
+            <a href="/courses">Course Directory</a>
+            <a href="/contact">Student Support</a>
+        </nav>
+    </header>
+
+    <main id="main-content" role="main">
+        <h1>Student Administration and Services Portal</h1>
+        <p>Access official examination schedules, syllabus requirements, and student support.</p>
+
+        <section aria-labelledby="sec-exams">
+            <h2 id="sec-exams">Winter Semester 2024 Examination Schedule</h2>
+            <p>Registration for master examinations opens on November 15th via the portal.</p>
+            <img src="exam_hall.jpg" alt="University lecture hall with students taking computer-based examination" width="600" height="300">
+            <p>For complete details, view the <a href="/fpso_details">Master of Science Examination Regulations and Guidelines</a>.</p>
+        </section>
+
+        <section aria-labelledby="sec-login">
+            <h2 id="sec-login">Student Account Verification</h2>
+            <form action="/verify" method="POST">
+                <div class="form-group">
+                    <label for="student-matriculation-id">Matriculation Number (7 Digits):</label>
+                    <input type="text" id="student-matriculation-id" name="matriculation_id" required aria-required="true" aria-describedby="mat-hint">
+                    <span id="mat-hint" style="display:block; font-size:0.85rem; color:#475569; margin-top:4px;">Example format: 0371234</span>
+                </div>
+                <button type="submit" class="btn-action" aria-label="Submit matriculation verification">Verify Enrollment</button>
+            </form>
+        </section>
+    </main>
+
+    <footer role="contentinfo" style="margin-top: 40px; border-top: 1px solid #cbd5e1; padding-top: 16px;">
+        <p>&copy; 2024 Technical University. Accessible under WCAG 2.1 Level AA and European Accessibility Act EN 301 549.</p>
+    </footer>
+</body>
+</html>

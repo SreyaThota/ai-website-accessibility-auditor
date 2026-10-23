@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inaccessible University Portal</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #ffffff; color: #d1d5db; /* Critical contrast: light grey text on white (1.4:1) */ }
+        .hero { background: linear-gradient(to right, #93c5fd, #ffffff); padding: 40px; }
+        .btn-tiny { width: 18px; height: 18px; background: #3b82f6; border: none; cursor: pointer; } /* Undersized touch target */
+        .muted-text { color: #a1a1aa; /* 2.3:1 contrast */ }
+    </style>
+</head>
+<body>
+    <!-- Skipped heading levels: no H1, jumps directly from H2 to H4 -->
+    <h2>Welcome to Student Administration Portal</h2>
+    <h4>Examination Announcements</h4>
+    <p class="muted-text">Please review your examination dates below.</p>
+
+    <!-- Image with completely missing alt -->
+    <img src="campus_banner.jpg" width="600" height="200">
+
+    <!-- Image with generic alt -->
+    <img src="dean_photo.jpg" alt="image" width="150" height="150">
+
+    <!-- Form inputs without associated labels -->
+    <form action="/login" method="POST">
+        <div>
+            <span>Matrikelnummer (Student ID):</span>
+            <input type="text" name="student_id" id="matrikel"> <!-- Missing label for="matrikel" -->
+        </div>
+        <div>
+            <span>Password:</span>
+            <input type="password" name="password"> <!-- Missing label -->
+        </div>
+        <!-- Button without accessible name -->
+        <button class="btn-tiny"></button>
+    </form>
+
+    <!-- Vague links -->
+    <p>To view the full examination schedule, <a href="/fpso">click here</a>.</p>
+    <p>For financial aid forms, <a href="/bafog">more</a>.</p>
+
+    <!-- Broken ARIA reference -->
+    <div aria-labelledby="non_existent_heading_id">
+        <p>Campus library regulations and hours.</p>
+    </div>
+</body>
+</html>
