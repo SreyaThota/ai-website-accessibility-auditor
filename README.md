@@ -260,17 +260,18 @@ pytest tests/ -v
 platform win32 -- Python 3.12.15, pytest-9.1.1, pluggy-1.7.0
 rootdir: C:\Users\sreya\.gemini\ai-website-accessibility-auditor
 configfile: pytest.ini
-collected 39 items
+collected 42 items
 
 tests/test_ai_alt.py .................................. [ 12%]
-tests/test_api.py .................................... [ 30%]
-tests/test_contrast.py ............................... [ 46%]
-tests/test_dom_rules.py .............................. [ 76%]
-tests/test_engine.py ................................. [ 82%]
-tests/test_reporter.py ............................... [ 89%]
+tests/test_api.py .................................... [ 26%]
+tests/test_cli.py .................................... [ 35%]
+tests/test_contrast.py ............................... [ 50%]
+tests/test_dom_rules.py .............................. [ 78%]
+tests/test_engine.py ................................. [ 83%]
+tests/test_reporter.py ............................... [ 90%]
 tests/test_touch_target.py ........................... [100%]
 
-============================= 39 passed in 20.52s =============================
+============================= 42 passed in 15.71s =============================
 ```
 
 ---

@@ -70,9 +70,18 @@ class VisualContrastAnalyzer:
         if not os.path.exists(image_path) or bbox.width <= 0 or bbox.height <= 0:
             return None
 
+        # Ignore elements positioned entirely off-screen (e.g. skip links or hidden off-canvas elements)
+        if (bbox.x + bbox.width <= 0) or (bbox.y + bbox.height <= 0):
+            return None
+
         try:
             with Image.open(image_path) as img:
                 img_w, img_h = img.size
+
+                # Ignore elements positioned beyond canvas dimensions
+                if bbox.x >= img_w or bbox.y >= img_h:
+                    return None
+
                 # Clamp coordinates to image boundaries
                 x1 = max(0, int(bbox.x))
                 y1 = max(0, int(bbox.y))
@@ -87,11 +96,19 @@ class VisualContrastAnalyzer:
 
                 # Segment pixels into foreground (text) and background via luminance percentile
                 luminances = np.array([self.calculate_relative_luminance(tuple(p)) for p in pixels])
+
+                # If the patch has virtually no color/luminance variation (solid color or no rendered text),
+                # skip visual text contrast evaluation to avoid false positives on non-text elements
+                if float(np.max(luminances) - np.min(luminances)) < 0.05:
+                    return None
+
                 sorted_indices = np.argsort(luminances)
 
-                # Cluster dark pixels vs light pixels
-                dark_pixels = pixels[sorted_indices[: max(1, len(pixels) // 5)]]
-                light_pixels = pixels[sorted_indices[-max(1, len(pixels) // 5):]]
+                # Cluster dark pixels vs light pixels using top/bottom 5% percentile
+                # to prevent text glyphs from being diluted by large background padding
+                k = max(1, int(len(pixels) * 0.05))
+                dark_pixels = pixels[sorted_indices[:k]]
+                light_pixels = pixels[sorted_indices[-k:]]
 
                 dark_mean = tuple(np.mean(dark_pixels, axis=0).astype(int))
                 light_mean = tuple(np.mean(light_pixels, axis=0).astype(int))
